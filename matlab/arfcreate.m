@@ -17,11 +17,17 @@ function arfcreate(filename, datasetname, size, varargin)
                 arfparams = [arfparams varargin{i} varargin{i+1}];
             end
         end
+         
+        if verLessThan('matlab','8.2')
+            addParamFunc = @addParamValue;
+        else
+            addParamFunc = @addParameter;
+        end
         
-        addParameter(p,'timestamp',0,@isnumeric)
-        addParameter(p,'units','', @isstr)
-        addParameter(p,'sampling_rate',0,@(x) (ceil(x)==x) & (x>0));
-        addParameter(p,'arf_datatype',0,@(x) any(x==datatype_codes))
+        addParamFunc(p,'timestamp',0,@isnumeric)
+        addParamFunc(p,'units','', @isstr)
+        addParamFunc(p,'sampling_rate',0,@(x) (ceil(x)==x) & (x>0));
+        addParamFunc(p,'arf_datatype',0,@(x) any(x==datatype_codes))
         parse(p,arfparams{:})
         %converting p.Results into variables
         for f = fieldnames(p.Results)' 
