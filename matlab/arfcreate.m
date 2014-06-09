@@ -92,9 +92,9 @@ function arfcreate(filename, datasetname, size, varargin)
         
         % add attributes to root group if new file
         if new_file
-            h5writeatt(filename,'/','arf_library', 'matlab');
-            h5writeatt(filename,'/','arf_library_version',version);
-            h5writeatt(filename,'/','arf_version',spec_version);
+            arfwriteatt(filename,'/','arf_library', 'matlab');
+            arfwriteatt(filename,'/','arf_library_version',version);
+            arfwriteatt(filename,'/','arf_version',spec_version);
         end
         %add timestamp and uuid to group attributes
         for i = 1:length(new_groups)
@@ -105,19 +105,19 @@ function arfcreate(filename, datasetname, size, varargin)
             else
                 tstamp = uint64(timestamp);
             end
-            h5writeatt(filename,new_groups{i},'uuid',uuid)
-            h5writeatt(filename,new_groups{i},'timestamp',tstamp)
+            arfwriteatt(filename,new_groups{i},'uuid',uuid)
+            arfwriteatt(filename,new_groups{i},'timestamp',tstamp)
         end
         
         %add attributes to dataset
         if ~strcmp(units,'')
-            h5writeatt(filename,datasetname,'units',units)
+            arfwriteatt(filename,datasetname,'units',units)
         end
         if sampling_rate > 0
-            h5writeatt(filename,datasetname,'sampling_rate',...
+            arfwriteatt(filename,datasetname,'sampling_rate',...
                 sampling_rate)
         end 
-        h5writeatt(filename,datasetname,'datatype',...
+        arfwriteatt(filename,datasetname,'datatype',...
             uint16(arf_datatype))
         
         
